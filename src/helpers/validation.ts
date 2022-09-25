@@ -52,4 +52,58 @@ const loginValidate = (body: Request) => {
    return schema.validate(body);
 };
 
-export { userValidate, updateUsersValidate, loginValidate };
+const categoryValidate = (body: Request) => {
+   const schema = Joi.object({
+      category_name: Joi.string().required(),
+   });
+
+   return schema.validate(body);
+};
+
+const updateCategoryValidate = (body: Request) => {
+   const schema = Joi.object({
+      category_id: Joi.string().required(),
+      category_name: Joi.string(),
+   });
+
+   return schema.validate(body);
+};
+
+const postValidate = (body: Request) => {
+   const schema = Joi.object({
+      user_id: Joi.string().required(),
+      contents: Joi.string().required(),
+      media_url: Joi.string().default(''),
+      category_id: Joi.array(),
+      reaction_count: Joi.number().default(0),
+      view_count: Joi.number().default(0),
+      is_deleted: Joi.boolean(),
+   });
+
+   return schema.validate(body);
+};
+
+const updatePostValidate = (body: Request) => {
+   const schema = Joi.object({
+      post_id: Joi.string().required(),
+      user_id: Joi.string(),
+      contents: Joi.string(),
+      media_url: Joi.string().default(''),
+      category_id: Joi.array(),
+      reaction_count: Joi.number(),
+      view_count: Joi.number(),
+      is_deleted: Joi.boolean(),
+   });
+
+   return schema.validate(body);
+};
+
+export {
+   userValidate,
+   updateUsersValidate,
+   loginValidate,
+   categoryValidate,
+   updateCategoryValidate,
+   postValidate,
+   updatePostValidate,
+};

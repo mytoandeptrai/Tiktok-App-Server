@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 import IUser from './IUser';
 import ICategory from './ICategory';
 
-export default interface Post extends Document {
+export default interface IPost extends Document {
    user_id: IUser;
    contents: string;
    media_url: string;

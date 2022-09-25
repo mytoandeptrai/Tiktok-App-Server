@@ -1,4 +1,4 @@
-import { PAGE_SIZE } from '../constants';
+import { PAGE_SIZE, QUERY_DELETED_IGNORE } from '../constants';
 
 export class ApiFeatures {
    query?: any;
@@ -25,6 +25,12 @@ export class ApiFeatures {
       const FROM = currentPage !== 1 ? Number(currentPage) : SIZE * 0;
 
       this.query = this.query.skip(FROM).limit(SIZE);
+      return this;
+   }
+
+   counting() {
+      const { typeCounting = QUERY_DELETED_IGNORE } = this.queryString;
+      this.query = this.query.count({ ...typeCounting });
       return this;
    }
 }
