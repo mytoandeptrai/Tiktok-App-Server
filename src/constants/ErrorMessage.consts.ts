@@ -1,0 +1,30 @@
+/**
+ * Message of error
+ */
+export enum ErrorMessage {
+   BAD_REQUEST = 'BadRequest',
+   UNAUTHORIZED = 'Unauthorized',
+   NOT_FOUND = 'NotFound',
+   FORBIDDEN = 'Forbidden',
+   PAYMENT_REQUIRED = 'PaymentRequired',
+   METHOD_NOT_ALLOWED = 'MethodNotAllowed',
+   NOT_ACCEPTABLE = 'NotAcceptable',
+   PROXY_AUTHENTICATION_REQUIRED = 'ProxyAuthenticationRequired',
+   REQUEST_TIMEOUT = 'RequestTimeout',
+   CONFLICT = 'Conflict',
+   GONE = 'Gone',
+   LENGTH_REQUIRED = 'LengthRequired',
+   PRECONDITION_FAILED = 'PreconditionFailed',
+   PAYLOAD_TOO_LARGE = 'PayloadTooLarge',
+   URI_TOO_LONG = 'URITooLong',
+   UN_SUPPORTED_MEDIA_TYPE = 'UnsupportedMediaType',
+   RANGE_NOT_SATISFIABLE = 'RangeNotSatisfiable',
+   EXPECTATION_FAILED = 'ExpectationFailed',
+   IMA_TEAPOT = 'ImATeapot',
+   INTERNAL_SERVER_ERROR = 'InternalServerError',
+   NOT_IMPLEMENTED = 'NotImplemented',
+   BAD_GATEWAY = 'BadGateway',
+   SERVICE_UNAVAILABLE = 'ServiceUnavailable',
+   GATEWAY_TIMEOUT = 'GatewayTimeout',
+   NETWORK_AUTHENTICATION_REQUIRED = 'NetworkAuthenticationRequired',
+}
