@@ -11,6 +11,7 @@ import configs from './configs';
 import { errorMiddleware } from './middlewares/errorMiddleware';
 import initializeResources from './resources';
 import { redis, redisStore } from './resources/redis';
+import requestIp from 'request-ip';
 
 const app: Express = express();
 
@@ -40,6 +41,7 @@ const initializeSecurity = () => {
    app.use(helmet.noSniff());
    app.use(helmet.xssFilter());
    app.use(morgan('combined'));
+   app.use(requestIp.mw());
 };
 
 const initializeMiddlewares = () => {
@@ -82,9 +84,7 @@ const listen = async () => {
    const PORT = configs.port || 5000;
 
    app.listen(PORT, () => {
-      console.log(
-         `⚡️[server]: Server is running at https://localhost:${PORT}`
-      );
+      console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
    });
 };
 

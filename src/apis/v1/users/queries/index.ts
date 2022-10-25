@@ -1,12 +1,13 @@
 import { NextFunction, Request } from 'express';
 import { ExpiredTime, RedisKeys } from '../../../../constants';
-import { UserModel } from '../../../../models';
+import { FollowModel, UserModel } from '../../../../models';
 import {
    getCacheWithMultipleKeys,
    setCacheWithTime,
 } from '../../../../resources/redis';
 import { convertSomethingToString } from '../../../../utils/common';
 import {
+   QUERY_DELETED_IGNORE,
    QUERY_IGNORE,
    QUERY_LOCKED_IGNORE,
 } from '../../../../utils/constants/index';
@@ -178,11 +179,32 @@ export const getUserByUsername = async (req: Request, next: NextFunction) => {
          );
       }
 
-      /** Todo:
-       * Get follow of user by userId from req
-       */
       if (user) {
          const user_id = req.user.userID;
+         const checkFollow = await FollowModel.find({
+            user_id,
+            ...QUERY_DELETED_IGNORE,
+         })
+            .populate([
+               {
+                  path: 'follow_id',
+                  select: 'fullname username avatar tick',
+               },
+               {
+                  path: 'user_id',
+                  select: 'fullname username avatar tick',
+               },
+            ])
+            .select(QUERY_IGNORE);
+
+         const isFollowed = checkFollow.find((element) => {
+            return element?.follow_id?.username === username;
+         });
+
+         if (isFollowed) {
+            const newResult = { ...result.toObject(), isFollow: true };
+            return newResult;
+         }
       }
 
       return { ...result.toObject(), isFollow: false };

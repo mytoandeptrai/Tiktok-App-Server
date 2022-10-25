@@ -104,3 +104,20 @@ export const getPost = async (
          Object(meta)
       ).send(res);
 };
+
+export const getPostTrends = async (
+   req: Request,
+   res: Response,
+   next: NextFunction
+): Promise<any> => {
+   const result = await queries.getPostTrends(req, next);
+   const meta = new Meta(result?.currentPage, result?.length, result?.total);
+   if (result)
+      new ApiResponse(
+         result.data,
+         'OK',
+         200,
+         Date.now() - req.startTime,
+         Object(meta)
+      ).send(res);
+};

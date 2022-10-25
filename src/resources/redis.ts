@@ -62,11 +62,25 @@ const getCacheWithMultipleKeys = async (key: string[]) => {
    return data;
 };
 
-const setCacheWithTime = async (key: string, data: string | number, time: number) => {
+const setCacheWithTime = async (
+   key: string,
+   data: string | number,
+   time: number
+) => {
    logger.info(
       `set cache with key: ${key} and data: ${data} in time: ${time} seconds`
    );
-   return redis.setex(key, time, data);
+   return await redis.setex(key, time, data);
+};
+
+const setNxCache = async (key: string, data: string | number) => {
+   logger.info(`set nx cache with key: ${key} and data: ${data}`);
+   return await redis.setnx(key, data);
+};
+
+const expireTimeCache = async (key: string, time: number) => {
+   logger.info(`expire time for key: ${key} in time: ${time} seconds`);
+   return await redis.expire(key, time, 'NX');
 };
 
 const clear = async (key: string) => {
@@ -76,4 +90,16 @@ const clear = async (key: string) => {
    return data;
 };
 
-export { set, setNX, setXX, get, clear, redis, redisStore, setCacheWithTime, getCacheWithMultipleKeys };
+export {
+   set,
+   setNX,
+   setXX,
+   get,
+   clear,
+   redis,
+   redisStore,
+   setCacheWithTime,
+   getCacheWithMultipleKeys,
+   setNxCache,
+   expireTimeCache,
+};

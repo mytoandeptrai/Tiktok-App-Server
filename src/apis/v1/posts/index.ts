@@ -10,6 +10,7 @@ import {
    getAllPosts,
    getAllPostsOfUser,
    getPost,
+   getPostTrends,
    restorePost,
    softDeletePost,
    updatePost,
@@ -17,6 +18,7 @@ import {
 
 const router = Router();
 
+router.get('/for-you', forwardMiddleware, asyncRouteHandler(getPostTrends));
 router.get(
    '/user/:id',
    forwardMiddleware,
