@@ -5,7 +5,7 @@ import {
    getCacheWithMultipleKeys,
    setCacheWithTime,
 } from '../../../../resources/redis';
-import { convertSomethingToString } from '../../../../utils/common';
+import { convertSomethingToString, parseStringFromJSON } from '../../../../utils/common';
 import {
    QUERY_DELETED_IGNORE,
    QUERY_IGNORE,
@@ -34,7 +34,7 @@ export const getAllUsers = async (req: Request, next: NextFunction) => {
          Number(cacheResults[2]) === CURRENT_PAGE
       ) {
          return {
-            data: cacheResults[0] !== null,
+            data: parseStringFromJSON(cacheResults[0]),
             currentPage: cacheResults[2],
             length: SIZE,
             total: cacheResults[1],
@@ -236,7 +236,7 @@ export const getSuggestedAccounts = async (
          Number(cacheResults[2]) === CURRENT_PAGE
       ) {
          return {
-            data: cacheResults[0] !== null,
+            data: parseStringFromJSON(cacheResults[0]),
             currentPage: cacheResults[2],
             length: SIZE,
             total: cacheResults[1],

@@ -217,34 +217,35 @@ export const getPostTrends = async (req: Request, next: NextFunction) => {
          req.query
       ).getSizeAndCurrentPage();
 
-      const ipAddress: string = req.clientIp || '';
-      if (CURRENT_PAGE === 0) {
-         const random = Math.floor(Math.random() * 6);
-         await Promise.all([clear(ipAddress), setNX(ipAddress, random, 600)]);
-      }
+      // const ipAddress: string = req.clientIp || '';
+      // if (CURRENT_PAGE === 0) {
+      //    const random = Math.floor(Math.random() * 6);
+      //    await Promise.all([clear(ipAddress), setNX(ipAddress, random, 600)]);
+      // }
 
-      const key = await get(ipAddress);
+      // const key = await get(ipAddress);
+      // console.log('🚀 ~ file: index.ts ~ line 227 ~ getPostTrends ~ key', key);
 
-      const sortTopic = (key: string | null) => {
-         switch (key) {
-            case '0':
-               return { _id: -1, view_count: -1, reaction_count: -1 };
-            case '1':
-               return { _id: -1, view_count: -1, reaction_count: -1 };
-            case '2':
-               return { view_count: -1, _id: -1, reaction_count: -1 };
-            case '3':
-               return { view_count: -1, reaction_count: -1, _id: -1 };
-            case '4':
-               return { reaction_count: -1, view_count: -1, _id: -1 };
-            case '5':
-               return { reaction_count: -1, _id: -1, view_count: -1 };
-            default:
-               return { _id: -1 };
-         }
-      };
+      // const sortTopic = (key: string | null) => {
+      //    switch (key) {
+      //       case '0':
+      //          return { _id: -1, view_count: -1, reaction_count: -1 };
+      //       case '1':
+      //          return { _id: -1, view_count: -1, reaction_count: -1 };
+      //       case '2':
+      //          return { view_count: -1, _id: -1, reaction_count: -1 };
+      //       case '3':
+      //          return { view_count: -1, reaction_count: -1, _id: -1 };
+      //       case '4':
+      //          return { reaction_count: -1, view_count: -1, _id: -1 };
+      //       case '5':
+      //          return { reaction_count: -1, _id: -1, view_count: -1 };
+      //       default:
+      //          return { _id: -1 };
+      //    }
+      // };
 
-      const OKOK = sortTopic(key);
+      // const OKOK = sortTopic(key);
 
       const features = new ApiFeatures(
          PostModel.find({ ...QUERY_DELETED_IGNORE })
@@ -259,9 +260,9 @@ export const getPostTrends = async (req: Request, next: NextFunction) => {
                },
             ])
             .select(QUERY_IGNORE)
-            .sort(Object(OKOK)),
+            .sort({ _id: -1, view_count: -1, reaction_count: -1 }),
          req.query
-      );
+      ).paginating();
 
       const count = PostModel.count({ ...QUERY_DELETED_IGNORE });
       const Follow = FollowModel.find({ user_id: userLogin?.userID });

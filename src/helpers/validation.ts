@@ -98,6 +98,14 @@ const updatePostValidate = (body: Request) => {
    return schema.validate(body);
 };
 
+const followValidate = (body: Request) => {
+   const schema = Joi.object({
+      user_id: Joi.string().required(),
+      follow_id: Joi.string().required(),
+   });
+   return schema.validate(body);
+};
+
 export {
    userValidate,
    updateUsersValidate,
@@ -106,4 +114,5 @@ export {
    updateCategoryValidate,
    postValidate,
    updatePostValidate,
+   followValidate,
 };
