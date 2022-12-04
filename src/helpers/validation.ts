@@ -108,12 +108,43 @@ const followValidate = (body: Request) => {
 
 const postReactionValidate = (body: Request) => {
    const schema = Joi.object({
-     user_id: Joi.string().required(),
-     post_id: Joi.string().required(),
-     type: Joi.string().required(),
+      user_id: Joi.string().required(),
+      post_id: Joi.string().required(),
+      type: Joi.string().required(),
    });
    return schema.validate(body);
- };
+};
+
+const commentValidate = (body: Request) => {
+   const schema = Joi.object({
+      user_id: Joi.string().required(),
+      post_id: Joi.string().required(),
+      contents: Joi.string().required(),
+      media_url: Joi.string(),
+      comment_reaction_count: Joi.number(),
+   });
+
+   return schema.validate(body);
+};
+
+const updateCommentValidate = (body: Request) => {
+   const schema = Joi.object({
+      comment_id: Joi.string().required(),
+      contents: Joi.string(),
+      media_url: Joi.string(),
+   });
+
+   return schema.validate(body);
+};
+
+const commentReactionValidate = (body: Request) => {
+   const schema = Joi.object({
+      user_id: Joi.string().required(),
+      comment_id: Joi.string().required(),
+      type: Joi.string().required(),
+   });
+   return schema.validate(body);
+};
 
 export {
    userValidate,
@@ -124,5 +155,8 @@ export {
    postValidate,
    updatePostValidate,
    followValidate,
-   postReactionValidate
+   postReactionValidate,
+   commentValidate,
+   commentReactionValidate,
+   updateCommentValidate,
 };

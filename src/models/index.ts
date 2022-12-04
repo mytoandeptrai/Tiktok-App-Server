@@ -3,4 +3,15 @@ import CategoryModel from './schemas/CategorySchema';
 import PostModel from './schemas/PostSchema';
 import FollowModel from './schemas/FollowSchema';
 import PostReactionModel from './schemas/PostReaction';
-export { UserModel, CategoryModel, PostModel, FollowModel, PostReactionModel };
+import CommentModel from './schemas/CommentSchema';
+import CommentReactionModel from './schemas/CommentReactionSchema';
+
+export {
+   UserModel,
+   CategoryModel,
+   PostModel,
+   FollowModel,
+   PostReactionModel,
+   CommentModel,
+   CommentReactionModel,
+};

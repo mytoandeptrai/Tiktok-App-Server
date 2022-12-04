@@ -121,3 +121,13 @@ export const getPostTrends = async (
          Object(meta)
       ).send(res);
 };
+
+export const viewPost = async (
+   req: Request,
+   res: Response,
+   next: NextFunction
+): Promise<any> => {
+   const result = await service.viewPost(req, next);
+   if (result)
+      new ApiResponse(result, 'OK', 200, Date.now() - req.startTime).send(res);
+};

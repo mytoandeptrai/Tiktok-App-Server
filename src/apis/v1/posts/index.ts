@@ -14,6 +14,7 @@ import {
    restorePost,
    softDeletePost,
    updatePost,
+   viewPost,
 } from './controller';
 
 const router = Router();
@@ -35,5 +36,6 @@ router.post('/', loginAuthMiddleware, asyncRouteHandler(createPost));
 router.patch('/', loginAuthMiddleware, asyncRouteHandler(updatePost));
 router.delete('/', loginAuthMiddleware, asyncRouteHandler(forceDeletePost));
 router.get('/', asyncRouteHandler(getAllPosts));
+router.post('/view/:id', asyncRouteHandler(viewPost));
 
 export default router;

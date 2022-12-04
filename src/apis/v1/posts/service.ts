@@ -1,4 +1,5 @@
 import { NextFunction, Request } from 'express';
+import { setCacheWithTime, setNxCache } from '../../../resources/redis';
 import { HttpException, StatusCode } from '../../../exceptions';
 import { postValidate, updatePostValidate } from '../../../helpers/validation';
 import { MongooseCustom } from '../../../libs';
@@ -166,6 +167,45 @@ export const forceDeletePost = async (req: Request, next: NextFunction) => {
             'Post does not exist',
             StatusCode.BadRequest.name
          );
+
+      return result;
+   } catch (error) {
+      next(error);
+   }
+};
+
+export const view = async (post_id: string, ipAddress: string) => {
+   const isOK = await setNxCache(`${ipAddress}-${post_id}`, 'value');
+   if (isOK === 1) {
+      const updateDoc = { $inc: { view_count: 1 } };
+      const result = await PostModel.findByIdAndUpdate(
+         { _id: post_id },
+         updateDoc
+      );
+      return result;
+   } else {
+      return 'notView';
+   }
+};
+
+export const viewPost = async (req: Request, next: NextFunction) => {
+   const { id } = req.params;
+   const ipAddress: string = req.clientIp || '';
+
+   try {
+      const result = await view(id, ipAddress);
+      if (!result) {
+         throw new HttpException(
+            'NotFoundError',
+            StatusCode.BadRequest.status,
+            'Post does not exist',
+            StatusCode.BadRequest.name
+         );
+      }
+
+      if (result === 'notView') {
+         return 'OK';
+      }
 
       return result;
    } catch (error) {
